@@ -46,9 +46,7 @@ const menu = [
 
 // BEGIN INIT, RENDER MAIN PROMPT MENU
 async function init() {
-    // let finished = false;
     let choice = await mainMenu();
-    console.log(choice.choice);
     // CALL FUNCTION BASED ON USER CHOICE
     switch (choice.choice) {
         case "VIEW_DEPARTMENTS":
@@ -79,10 +77,7 @@ async function init() {
 
 // DISPLAYS MAIN MENU
 async function mainMenu() {
-    console.log("2");
     return await prompt(menu);
-    // console.log("3");
-    // return choice;
 }
 
 // VIEW ALL DEPARTMENTS
