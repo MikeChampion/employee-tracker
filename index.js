@@ -50,13 +50,13 @@ async function init() {
     // CALL FUNCTION BASED ON USER CHOICE
     switch (choice.choice) {
         case "VIEW_DEPARTMENTS":
-            viewDepartments();
+            viewAllDepartments();
             break;
         case "VIEW_ROLES":
-            viewRoles();
+            viewAllRoles();
             break;
         case "VIEW_EMPLOYEES":
-            viewEmployees();
+            viewAllEmployees();
             break;
         case "ADD_DEPARTMENT":
             addDepartment();
@@ -68,7 +68,7 @@ async function init() {
             addEmployee();
             break;
         case "UPDATE_EMPLOYEE_ROLE":
-            updateEmployeeRole();
+            updateEmpRole();
             break;
         default:
             quit();
