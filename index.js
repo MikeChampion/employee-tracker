@@ -1,7 +1,8 @@
-const { prompt } = require("Inquirer");
+const { prompt } = require("inquirer");
 const db = require("./db");
 require("console.table");
 
+// MAIN MENU PROMPT
 const menu = [
     {
         type: "list",
@@ -44,40 +45,44 @@ const menu = [
     },
 ];
 
-// BEGIN INIT, RENDER MAIN PROMPT MENU
-async function init() {
-    let choice = await mainMenu();
-    // CALL FUNCTION BASED ON USER CHOICE
-    switch (choice.choice) {
-        case "VIEW_DEPARTMENTS":
-            viewAllDepartments();
-            break;
-        case "VIEW_ROLES":
-            viewAllRoles();
-            break;
-        case "VIEW_EMPLOYEES":
-            viewAllEmployees();
-            break;
-        case "ADD_DEPARTMENT":
-            addDepartment();
-            break;
-        case "ADD_ROLE":
-            addRole();
-            break;
-        case "ADD_EMPLOYEE":
-            addEmployee();
-            break;
-        case "UPDATE_EMPLOYEE_ROLE":
-            updateEmpRole();
-            break;
-        default:
-            quit();
-    }
+// CALL INIT FXN TO START PROGRAM
+init();
+
+// INIT PROGRAM, RUN mainMenu()
+function init() {
+    mainMenu();
 }
 
-// DISPLAYS MAIN MENU
-async function mainMenu() {
-    return await prompt(menu);
+// GENERATE MAIN MENU, APPLY CHOICE TO SWITCH CASE
+function mainMenu() {
+    prompt(menu).then((res) => {
+        let choice = res.choice;
+        switch (choice) {
+            case "VIEW_DEPARTMENTS":
+                viewDepartments();
+                break;
+            case "VIEW_ROLES":
+                viewRoles();
+                break;
+            case "VIEW_EMPLOYEES":
+                viewEmployees();
+                break;
+            case "ADD_DEPARTMENT":
+                addDepartment();
+                break;
+            case "ADD_ROLE":
+                addRole();
+                break;
+            case "ADD_EMPLOYEE":
+                addEmployee();
+                break;
+            case "UPDATE_EMPLOYEE_ROLE":
+                updateEmployeeRole();
+                break;
+            default:
+                quit();
+        }
+    });
 }
 
 // VIEW ALL DEPARTMENTS
@@ -132,7 +137,7 @@ function addDepartment() {
 function addRole() {
     db.findAllDepartments().then(([rows]) => {
         let departments = rows;
-        const departmentTypes = departments.map(({ id, name }) => ({
+        const departmentChoices = departments.map(({ id, name }) => ({
             name: name,
             value: id,
         }));
@@ -150,7 +155,7 @@ function addRole() {
                 type: "list",
                 name: "department_id",
                 message: "Which department does the role belong to?",
-                choices: departmentTypes,
+                choices: departmentChoices,
             },
         ]).then((role) => {
             db.createRole(role)
@@ -275,12 +280,8 @@ function updateEmployeeRole() {
     });
 }
 
-// QUIT THE APPLICATION
+// EXIT APPLICATION
 function quit() {
-    finished = true;
     console.log("Goodbye!");
     process.exit();
 }
-
-// FUNCTION CALL TO INITIALIZE APP
-init();

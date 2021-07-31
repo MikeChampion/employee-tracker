@@ -6,15 +6,15 @@ class DB {
         this.connection = connection;
     }
 
-    // Find all departments
-    viewAllDepartments() {
+    // USED BY viewDepartments(), addEmployee()
+    findAllDepartments() {
         return this.connection
             .promise()
             .query("SELECT department.id, department.name FROM department;");
     }
 
-    // Find all roles, join with departments to display the department name
-    viewAllRoles() {
+    // USED BY viewRoles(), addEmployee(), updateEmployeeRole()
+    findAllRoles() {
         return this.connection
             .promise()
             .query(
@@ -22,8 +22,8 @@ class DB {
             );
     }
 
-    // Find all employees, join with roles and departments to display their roles, salaries, departments, and managers
-    viewAllEmployees() {
+    // USED BY viewEmployees(), addEmployee(), updateEmployeeRole()
+    findAllEmployees() {
         return this.connection
             .promise()
             .query(
@@ -31,27 +31,27 @@ class DB {
             );
     }
 
-    // ADD NEW DEPARTMENT
-    addDepartment(department) {
+    // USED BY addDepartment()
+    createDepartment(department) {
         return this.connection
             .promise()
             .query("INSERT INTO department SET ?", department);
     }
 
-    // Create a new role
-    addRole(role) {
+    // USED BY addRole()
+    createRole(role) {
         return this.connection.promise().query("INSERT INTO role SET ?", role);
     }
 
-    // Create a new employee
-    addEmployee(employee) {
+    // USED BY addEmployee()
+    createEmployee(employee) {
         return this.connection
             .promise()
             .query("INSERT INTO employee SET ?", employee);
     }
 
-    // Update the given employee's role
-    updateEmpRole(employeeId, roleId) {
+    // USED BY updateEmployeeRole()
+    updateEmployeeRole(employeeId, roleId) {
         return this.connection
             .promise()
             .query("UPDATE employee SET role_id = ? WHERE id = ?", [
